@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from './components/FileList';
-import { parseMarkdownFiles } from './utils/markdownParser';
+import { loadAndParseContentFiles } from './utils/contentLoader';
 import { FileData } from './types';
 import { FileText, Copy, Check, Clipboard } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -16,43 +16,15 @@ const App: React.FC = () => {
   const [availableCategories, setAvailableCategories] = useState<string[]>([]);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
 
-  // Load sample Markdown files on component mount
+  // Load content files on component mount
   useEffect(() => {
-    const loadSampleFiles = async () => {
+    const loadContentFiles = async () => {
       try {
         setIsLoading(true);
         setError(null);
         
-        // Since we can't directly access the file system in the browser,
-        // we need to use files from the public directory
-        const contentFiles = [
-          '/sample/rule1.md',
-          '/sample/rule2.md',
-          '/sample/rule3.md'
-        ];
-        
-        const filePromises = contentFiles.map(async (path: string) => {
-          try {
-            const response = await fetch(path);
-            if (!response.ok) {
-              throw new Error(`Failed to fetch ${path}`);
-            }
-            const text = await response.text();
-            const fileName = path.split('/').pop() || '';
-            
-            // Create a File object from the fetched content
-            const file = new File([text], fileName, { type: 'text/markdown' });
-            return file;
-          } catch (error) {
-            console.error(`Error loading ${path}:`, error);
-            return null;
-          }
-        });
-        
-        const fileList = await Promise.all(filePromises);
-        // Filter out any null values from failed fetches
-        const validFiles = fileList.filter((file: any) => file !== null);
-        const fileDataArray = await parseMarkdownFiles(validFiles as unknown as FileList);
+        // Use the dynamic content loader to fetch and parse files
+        const fileDataArray = await loadAndParseContentFiles();
         
         // Extract unique categories and tags
         const categories = new Set<string>();
@@ -101,7 +73,7 @@ const App: React.FC = () => {
       }
     };
     
-    loadSampleFiles();
+    loadContentFiles();
   }, []);
 
   const handleFilterChange = (filters: { categories: string[], tags: string[] }) => {
@@ -155,7 +127,7 @@ const App: React.FC = () => {
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">AI Rules Context Generator</h1>
           <p className="text-gray-600 mt-2">
-            View Markdown files from the sample directory, filter by category and tags.
+            View Markdown files from the content directory, filter by category and tags.
           </p>
         </header>
         <div className="px-4 py-8">

@@ -1,0 +1,9 @@
+{
+  "generated": "2025-06-25T21:45:13.402Z",
+  "files": [
+    "/content/rule1.md",
+    "/content/rule2.md",
+    "/content/rule3.md",
+    "/content/subfolder/rule3.md"
+  ]
+}

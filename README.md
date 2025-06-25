@@ -4,7 +4,8 @@ A client-side React and TypeScript application that allows users to assemble con
 
 ## Features
 
-- **File Selection**: Upload multiple Markdown files or select an entire directory
+- **Dynamic Content Loading**: Automatically loads Markdown files from the content directory
+- **Development/Production Optimization**: Uses dynamic loading in development and pregenerated manifest in production
 - **Metadata Extraction**: Parse frontmatter from Markdown files to extract categories and tags
 - **Filtering & Sorting**: Filter files by categories and tags, sort by name or last modified date
 - **Multi-Selection**: Select multiple files to include in your context
@@ -44,7 +45,7 @@ yarn start
 
 ## Usage
 
-1. **Select Files**: Click "Select Markdown Files" to choose multiple .md files, or "Select Directory" to choose a directory containing .md files.
+1. **Content Files**: Place your Markdown files in the `public/content` directory. You can organize them in subdirectories as needed.
 
 2. **Filter & Sort**: Use the filter panel to narrow down files by categories or tags. Sort files by name or last modified date.
 
@@ -73,7 +74,10 @@ Always verify information before presenting it as fact...
 - Uses functional components with React Hooks
 - Styled with Tailwind CSS
 - Parses Markdown with gray-matter
-- Implements copy-to-clipboard functionality using document.execCommand('copy')
+- Dynamic content loading system with environment-specific optimizations
+- Directory middleware for development mode
+- Content manifest generation for production builds
+- Implements copy-to-clipboard functionality using navigator.clipboard API
 - Fully client-side with no backend dependencies
 
 ## Building for Production
@@ -86,7 +90,30 @@ npm run build
 yarn build
 ```
 
+This will:
+1. Generate a content manifest file listing all Markdown files in the `public/content` directory
+2. Create an optimized production build
+
 The build artifacts will be stored in the `build/` directory, ready for deployment to any static hosting service.
+
+## Content Management
+
+### Development Mode
+
+In development mode, the application dynamically scans the `public/content` directory to find all Markdown files. This allows you to add, remove, or modify content files without restarting the development server.
+
+### Production Mode
+
+In production mode, the application uses a pregenerated content manifest file (`content-manifest.json`) that is created during the build process. This optimizes performance by avoiding directory scanning at runtime.
+
+### Adding Content
+
+To add new content:
+
+1. Create Markdown files with appropriate frontmatter (see Markdown Format section)
+2. Place them in the `public/content` directory or subdirectories
+3. In development mode, they will be automatically detected
+4. For production, rebuild the application to update the content manifest
 
 ## License
 
