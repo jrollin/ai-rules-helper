@@ -9,10 +9,42 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f9fafb;
+  background-color: #121212;
+  color: #ffffff;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.dark-theme {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent-color: #3a86ff;
+  --button-primary-bg: #f7df1e;
+  --button-primary-text: #121212;
+  --button-primary-hover-bg: #e6d01d;
+  --button-secondary-bg: rgba(255, 255, 255, 0.1);
+  --button-secondary-text: var(--text-secondary);
+  --button-secondary-hover-bg: rgba(255, 255, 255, 0.2);
+}
+
+.thin-border {
+  border: 1px solid var(--border-color);
+}
+
+button {
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
 }

@@ -122,27 +122,29 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen dark-theme bg-primary" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <div className="max-w-6xl mx-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">AI Rules Context Generator</h1>
-          <p className="text-gray-600 mt-2">
+        <header className="thin-border text-center p-4" >
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>AI Rules Helper</h1>
+          <p style={{  marginTop: '0.5rem', fontStyle: 'italic' }}>
             View Markdown files from the content directory, filter by category and tags.
           </p>
         </header>
         <div className="px-4 py-8">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="thin-border rounded p-4 mb-4" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400"></div>
+            </div>
           </div>
         ) : error ? (
           <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 my-4" role="alert">
             <p>{error}</p>
           </div>
         ) : (
-          <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex flex-col md:flex-row gap-3">
             {/* Left Column - File List */}
-            <div className="w-full md:w-1/3 mb-6 md:mb-0">
+            <div className="w-full md:w-1/3 thin-border rounded p-4" style={{ backgroundColor: 'var(--bg-secondary)' }}>
               <FileList 
                 files={filteredFiles} 
                 onFilterChange={handleFilterChange}
@@ -156,13 +158,17 @@ const App: React.FC = () => {
             {/* Right Column - Content */}
             <div className="w-full md:w-2/3">
               {selectedFiles.length > 0 ? (
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-semibold text-gray-800">
+                <div className="thin-border rounded p-4" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                  <div className="flex justify-between items-center mb-3">
+                    <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
                       Content {selectedFiles.length > 1 ? `(${selectedFiles.length} files)` : ''}
                     </h2>
                     <button 
-                      className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                      className="flex items-center gap-1 px-3 py-1 text-sm rounded" 
+                      style={{
+                        backgroundColor: allCopied ? 'var(--button-secondary-bg)' : 'var(--button-primary-bg)', 
+                        color: allCopied ? 'var(--button-secondary-text)' : 'var(--button-primary-text)'
+                      }}
                       onClick={() => {
                         const selectedContent = selectedFiles.map(file => file.content).join('\n\n---\n\n');
                         navigator.clipboard.writeText(selectedContent);
@@ -184,18 +190,18 @@ const App: React.FC = () => {
                     </button>
                   </div>
                   
-                  <div className="space-y-8">
+                  <div className="space-y-6">
                     {selectedFiles.map((file) => (
-                      <div key={file.id} className="border border-gray-200 rounded-lg overflow-hidden">
-                        <div className="bg-gray-50 p-4 border-b border-gray-200 flex items-center justify-between">
+                      <div key={file.id} className="thin-border rounded overflow-hidden">
+                        <div className="p-3 thin-border flex items-center justify-between" style={{ borderWidth: '0 0 1px 0' }}>
                           <div className="flex items-center">
                             <FileText className="text-gray-500 mr-2" size={20} />
-                            <h3 className="text-lg font-medium text-gray-900">
+                            <h3 className="text-base font-medium" style={{ color: 'var(--text-primary)' }}>
                               {file.title || file.name.replace(/\.md$/, '')}
                             </h3>
                           </div>
                           <button 
-                            className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                            className="flex items-center gap-1 px-2 py-1 text-xs rounded" style={{ backgroundColor: 'var(--button-secondary-bg)', color: 'var(--button-secondary-text)' }}
                             onClick={() => {
                               navigator.clipboard.writeText(file.content);
                               setCopiedIndex(selectedFiles.indexOf(file));
@@ -215,7 +221,7 @@ const App: React.FC = () => {
                             )}
                           </button>
                         </div>
-                        <div className="p-4 prose max-w-none">
+                        <div className="p-3 prose max-w-none" style={{ color: 'var(--text-secondary)' }}>
                           <ReactMarkdown>
                             {file.content}
                           </ReactMarkdown>
@@ -225,8 +231,8 @@ const App: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-center h-40">
-                  <p className="text-gray-500">Select one or more files to view content</p>
+                <div className="thin-border rounded p-4 flex items-center justify-center h-40" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                  <p style={{ color: 'var(--text-secondary)' }}>Select one or more files to view content</p>
                 </div>
               )}
             </div>

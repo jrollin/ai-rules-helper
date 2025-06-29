@@ -93,8 +93,8 @@ export const ContextGenerator: React.FC<ContextGeneratorProps> = ({ selectedFile
                 selectedFiles.length === 0
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   : copied
-                  ? 'bg-green-600 text-white'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  ? 'bg-green-600 hover:bg-green-700 text-white' 
+                  : 'bg-yellow-400 hover:bg-yellow-500 text-black'
               }`}
             >
               {copied ? <Check size={18} /> : <Copy size={18} />}

@@ -31,17 +31,18 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
     <div className="w-full">
       <div className="flex flex-wrap gap-2">
         {options.length === 0 ? (
-          <div className="text-gray-500">{placeholder || 'No options available'}</div>
+          <div style={{ color: 'var(--text-secondary)' }}>{placeholder || 'No options available'}</div>
         ) : (
           options.map(option => (
             <button
               key={option.value}
               onClick={() => handleTagClick(option.value)}
-              className={`px-3 py-1 rounded-md text-sm transition-colors ${
-                selected.includes(option.value)
-                  ? 'bg-blue-100 text-blue-800 border border-blue-300'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
-              }`}
+              className={`px-2 py-1 rounded text-xs transition-colors thin-border`}
+              style={{
+                backgroundColor: selected.includes(option.value) ? 'var(--button-primary-bg)' : 'var(--button-secondary-bg)',
+                color: selected.includes(option.value) ? 'var(--button-primary-text)' : 'var(--button-secondary-text)',
+                borderColor: selected.includes(option.value) ? 'var(--button-primary-bg)' : 'var(--border-color)'
+              }}
               aria-pressed={selected.includes(option.value)}
             >
               {option.label}
